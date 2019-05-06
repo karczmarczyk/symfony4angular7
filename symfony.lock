@@ -108,6 +108,9 @@
             "ref": "258300d52be6ad59b32a888d5ddafbf9638540ff"
         }
     },
+    "friendsofsymfony/user-bundle": {
+        "version": "v2.1.2"
+    },
     "hoa/compiler": {
         "version": "3.17.08.08"
     },
