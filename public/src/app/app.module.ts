@@ -15,6 +15,9 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { UploadComponent } from './upload/upload.component';
+
+import { DragDropDirective } from './_directives/drag-drop.directive';
 
 @NgModule({
     imports: [
@@ -28,7 +31,9 @@ import { RegisterComponent } from './register/register.component';
         AlertComponent,
         HomeComponent,
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        UploadComponent,
+        DragDropDirective
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
