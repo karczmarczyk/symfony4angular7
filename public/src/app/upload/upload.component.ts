@@ -46,7 +46,7 @@ export class UploadComponent implements OnInit {
       let image = this.files[i];
       const formData: FormData = new FormData();
       formData.append('file', image, image.name);
-      formData.append('id', 100);
+      // formData.append('id', 100);
       this.http.post('/api/upload', formData)
       .subscribe(res => {
         console.log(res);
