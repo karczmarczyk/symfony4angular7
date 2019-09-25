@@ -2,6 +2,8 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule }    from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClientXsrfModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 // used to create fake backend
 import { fakeBackendProvider } from './_helpers/fake-backend';
@@ -18,6 +20,8 @@ import { RegisterComponent } from './register/register.component';
 import { UploadComponent } from './upload/upload.component';
 
 import { DragDropDirective } from './_directives/drag-drop.directive';
+
+
 
 @NgModule({
     imports: [
@@ -42,6 +46,7 @@ import { DragDropDirective } from './_directives/drag-drop.directive';
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        CookieService
 
         // provider used to create fake backend
         //fakeBackendProvider
@@ -49,4 +54,15 @@ import { DragDropDirective } from './_directives/drag-drop.directive';
     bootstrap: [AppComponent]
 })
 
-export class AppModule { }
+export class AppModule { 
+    constructor(private http: HttpClient, private cookie: CookieService) {
+        this.setCsrf ();
+    }
+
+    setCsrf() {
+        this.http.get('/api/auth/csrf')
+        .subscribe(res => {
+            this.cookie.set('XSRF-TOKEN', res['csrf']);
+        });
+    }
+}

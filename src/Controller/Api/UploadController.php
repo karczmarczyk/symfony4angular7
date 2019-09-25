@@ -31,8 +31,8 @@ class UploadController extends AbstractController
         $uploadedFile = new UploadedFile();
         
         
-        $form = $this->createForm(UploadedFileType::class, $uploadedFile,
-            ['csrf_protection' => false]);
+        $form = $this->createForm(UploadedFileType::class, $uploadedFile/*,
+        ['csrf_protection' => false]*/);
         
         echo '$request->files';
         var_dump($request->files);

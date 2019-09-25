@@ -56,4 +56,17 @@ class ApiAuthController extends AbstractController
         }
         return new JsonResponse(["success" => $user->getUsername(). " has been registered!"], 200);
     }
+
+    /**
+     * @Route("/csrf", name="api_auth_csrf",  methods={"GET"})
+     * @param Request $request
+     * @param UserManagerInterface $userManager
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function getCsrf(Request $request)
+    {
+        $tokenProvider = $this->container->get('security.csrf.token_manager');
+        $token = $tokenProvider->getToken('example')->getValue();
+        return new JsonResponse(["csrf" => $token], 200);
+    }
 }
