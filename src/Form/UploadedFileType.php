@@ -2,6 +2,7 @@
 namespace App\Form;
 
 use App\Entity\UploadedFile;
+use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -41,8 +42,9 @@ class UploadedFileType extends BaseFormType
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
         $resolver->setDefaults([
-            'data_class' => UploadedFile::class,
+            'data_class' => UploadedFile::class
         ]);
     }
 

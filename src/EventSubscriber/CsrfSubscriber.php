@@ -2,13 +2,13 @@
 namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class CsrfSubscriber implements EventSubscriberInterface
 {
 
-    public function onKernelController(ControllerEvent $event)
+    public function onKernelController(FilterControllerEvent $event)
     {
         $controller = $event->getController();
 
@@ -22,11 +22,18 @@ class CsrfSubscriber implements EventSubscriberInterface
         }
 
 
+        /**
+         * Put to POST attribute _token value of xcsrf token
+         */
         $token = $event->getRequest()->headers->get('X-CSRF-Token');
         if($token){
-echo $token;
-            // $form = $event->getForm();
-            // $form->get('_token')->setData($token);
+            if ($event->getRequest()->getMethod() == 'POST'
+                && !isset($_POST['_token'])) {
+                //$event->getRequest()->attributes->set('_token', $token);
+                $event->getRequest()->request->set('_token',$token);
+                $_POST['_token'] = $token;
+            }
+
         }
     }
 

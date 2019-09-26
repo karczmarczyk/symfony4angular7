@@ -36,6 +36,8 @@ class UploadController extends AbstractController
         
         echo '$request->files';
         var_dump($request->files);
+        echo '$request->request->get(form)';
+        var_dump($request->request->get("form"));
 
         // echo '$this->get(\'form.factory\');';
         // var_dump($this->get('form.factory')->);
@@ -44,6 +46,9 @@ class UploadController extends AbstractController
 
         echo 'isValid=';
         echo (int)$form->isValid();
+
+        echo '$this->isCsrfTokenValid(main_csrf_token,$_POST[_token]);';
+        echo (int)$this->isCsrfTokenValid('main_csrf_token',$_POST['_token']);
 
         echo '$form->getData()';
         var_dump($form->getData());

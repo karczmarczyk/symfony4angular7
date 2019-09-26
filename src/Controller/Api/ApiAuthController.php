@@ -63,10 +63,13 @@ class ApiAuthController extends AbstractController
      * @param UserManagerInterface $userManager
      * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function getCsrf(Request $request)
+    public function getCsrf($type = null, Request $request)
     {
+        if (is_null($type)) {
+            $type = \App\Helper\CsrfTokenConst::getCsrfMainTokenName();
+        }
         $tokenProvider = $this->container->get('security.csrf.token_manager');
-        $token = $tokenProvider->getToken('example')->getValue();
+        $token = $tokenProvider->getToken($type)->getValue();
         return new JsonResponse(["csrf" => $token], 200);
     }
 }
