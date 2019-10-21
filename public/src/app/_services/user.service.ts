@@ -15,6 +15,10 @@ export class UserService {
         return this.http.get(`/api/users/${id}`);
     }
 
+    getCurrent() {
+        return this.http.get<User>(`/api/user/current`);
+    }
+
     register(user: User) {
         return this.http.post(`/api/auth/register`, user);
     }

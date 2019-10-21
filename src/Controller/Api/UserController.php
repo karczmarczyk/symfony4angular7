@@ -8,6 +8,7 @@ use App\Entity\User;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\DtoJs\UserDtoJs;
 
 class UserController extends FOSRestController 
 {
@@ -23,6 +24,26 @@ class UserController extends FOSRestController
 
         $users = $repository->findAll();
         return $this->handleView($this->view($users));
+    }
+
+    /**
+     * Return current user
+     * @Rest\Get("/user/current")
+     * 
+     * User {
+     *  id: number;
+     *  username: string;
+     *  password: string;
+     *  firstName: string;
+     *  lastName: string;
+     *  email: string;
+     *  token: string;
+     * }
+     * 
+     */
+    public function getCurrentUser () {
+        $user = $this->getUser();
+        return new JsonResponse(new UserDtoJs($user), 200);
     }
 
     /**

@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 
 // used to create fake backend
 import { fakeBackendProvider } from './_helpers/fake-backend';
+import { first } from 'rxjs/operators';
 
 import { AppComponent }  from './app.component';
 import { routing }        from './app-routing.module';
@@ -20,6 +21,10 @@ import { RegisterComponent } from './register/register.component';
 import { UploadComponent } from './upload/upload.component';
 
 import { DragDropDirective } from './_directives/drag-drop.directive';
+import { UserService } from './_services/user.service';
+
+import { Router } from '@angular/router';
+import { AuthenticationService } from './_services/authentication.service';
 
 
 
@@ -55,8 +60,19 @@ import { DragDropDirective } from './_directives/drag-drop.directive';
 })
 
 export class AppModule { 
-    constructor(private http: HttpClient, private cookie: CookieService) {
+    constructor(private http: HttpClient, private cookie: CookieService, 
+        private userService: UserService, private router: Router,
+        private authenticationService: AuthenticationService) {
         this.setCsrf ();
+
+        // Sprawdzenie czy jestem zalogowany po stronie serwera
+        this.userService.getCurrent().pipe(first()).subscribe(user => {
+            console.log(user);
+        },
+        error => {
+            this.authenticationService.logout();
+            this.router.navigate(['/login']);
+        });
     }
 
     setCsrf() {

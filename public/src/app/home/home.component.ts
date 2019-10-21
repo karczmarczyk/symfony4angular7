@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     currentUser: User;
     currentUserSubscription: Subscription;
     users: User[] = [];
+    current: User = new User;
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -32,7 +33,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     deleteUser(id: number) {
         this.userService.delete(id).pipe(first()).subscribe(() => {
-            this.loadAllUsers()
+            this.loadAllUsers();
+        });
+    }
+
+    getCurrentUser() {
+        this.userService.getCurrent().pipe(first()).subscribe(user => {
+            this.current = user;
         });
     }
 
